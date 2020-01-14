@@ -20,11 +20,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "mcu.h"
-#include "usart.h"
+#include "circular-buffer.h"
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+static circularBuffer_st cirbuf_rx_sv;
+static uint8_t usart_buffer_u8arr[32];
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -32,11 +34,21 @@ int
 main()
 {
   MCU_Init();
+  CIRCULAR_BUFFER_Init(&cirbuf_rx_sv, usart_buffer_u8arr, 32); // TODO config
+  USART_BufferLink(&cirbuf_rx_sv);
+
+  MCU_INTERRUPT_ENABLE();
   while(1)
   {
-    uint8_t rx_char = USART_Read();
-    USART_Printf("RECEIVED Char %c \n\r", rx_char);
+    USART_Printf("Available %d \n\r", CIRCULAR_BUFFER_Available(&cirbuf_rx_sv));
+    if (CIRCULAR_BUFFER_Available(&cirbuf_rx_sv) > 5 - 1)
+    {
+      while (CIRCULAR_BUFFER_Available(&cirbuf_rx_sv))
+      {
+        USART_Write(CIRCULAR_BUFFER_Read(&cirbuf_rx_sv));
+      }
+      USART_Printf("\n\r");
+    }
     DELAY_ms(1000);
   }
 }
-

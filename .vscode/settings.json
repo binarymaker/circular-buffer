@@ -1,0 +1,9 @@
+{
+  "cSpell.words": [
+    "usart"
+  ],
+  "files.associations": {
+    "*.log": "log",
+    "circular-buffer.h": "c"
+  }
+}

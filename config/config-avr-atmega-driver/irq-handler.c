@@ -32,3 +32,8 @@ ISR(TIMER0_OVF_vect)
   SYSTIMER_Engin();
   BIT_Clear(TIFR0, TOV0);
 }
+
+ISR(USART_RX_vect)
+{
+  USART_BufferEngin();
+}

@@ -15,10 +15,10 @@
             <sourceRootList>
                 <sourceRootElem>.</sourceRootElem>
                 <sourceRootElem>../../library/avr-atmega-driver/source</sourceRootElem>
-                <sourceRootElem>../../config/config-avr-atmega-driver</sourceRootElem>
-                <sourceRootElem>../../config/config-printf</sourceRootElem>
                 <sourceRootElem>../../library/printf/source</sourceRootElem>
                 <sourceRootElem>../../library/embclib/source</sourceRootElem>
+                <sourceRootElem>../../source</sourceRootElem>
+                <sourceRootElem>../../config</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

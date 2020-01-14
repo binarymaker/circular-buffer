@@ -223,7 +223,7 @@ USART_Config()
    * Disable -  _L_   |   _L_
    */
   UCSR0B    =     _H_(RXEN0)    |     _H_(TXEN0)                               ;
-  UCSR0B   |=     _L_(RXCIE0)   |     _L_(TXCIE0)     |   _L_(UDRIE0)          ;
+  UCSR0B   |=     _H_(RXCIE0)   |     _L_(TXCIE0)     |   _L_(UDRIE0)          ;
   
   /**
    * Frame Character size ------------------------------------------------------

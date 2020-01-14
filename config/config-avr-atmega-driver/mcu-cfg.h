@@ -79,6 +79,7 @@ ADC_Config();
 
 #if IS_DRIVER_ENABLE(USART)
 
+#define USART_BUFFER_STACK                                               ENABLE
 #define USART_BAUD_REG_CALC(baud)        (uint16_t)((F_CPU / (16 * (baud))) - 1)
 #define USART_BAUD_REG_2X_CALC(baud)      (uint16_t)((F_CPU / (8 * (baud))) - 1)
 
