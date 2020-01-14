@@ -34,7 +34,8 @@ main()
   MCU_Init();
   while(1)
   {
-    USART_Printf("circular buffer");
+    uint8_t rx_char = USART_Read();
+    USART_Printf("RECEIVED Char %c \n\r", rx_char);
     DELAY_ms(1000);
   }
 }
