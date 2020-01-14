@@ -33,11 +33,32 @@
 #define __CIRCULAR_BUFFER_VERSION      (0x0001u)
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdint.h>
 /* Exported types ------------------------------------------------------------*/
+typedef struct circularBuffer_s
+{
+  uint16_t size_u16;
+  uint8_t  *buffer_u8ptr;
+  uint16_t head_u16;
+  uint16_t tail_u16;
+} circularBuffer_st;
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
+
+void
+CIRCULAR_BUFFER_Init(circularBuffer_st * self_sv, uint8_t * buffer_u8ptr, 
+                      uint16_t size_u16);
+
+void
+CIRCULAR_BUFFER_Write(circularBuffer_st * self_sv, uint8_t data_u8);
+
+uint8_t
+CIRCULAR_BUFFER_Read(circularBuffer_st * self_sv);
+
+uint16_t
+CIRCULAR_BUFFER_Available(circularBuffer_st * self_sv);
 
 #ifdef __cplusplus
 }

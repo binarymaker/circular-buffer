@@ -19,6 +19,8 @@
   \endcond*/
 
 /* Includes ------------------------------------------------------------------*/
+#include "circular-buffer.h"
+#include "circular-buffer-cfg.h"
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -26,3 +28,48 @@
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
+void
+CIRCULAR_BUFFER_Init(circularBuffer_st * self_sv, uint8_t * buffer_u8ptr, 
+                      uint16_t size_u16)
+{
+  self_sv->size_u16 = size_u16;
+  self_sv->buffer_u8ptr = buffer_u8ptr;
+  self_sv->head_u16 = 0;
+  self_sv->tail_u16 = 0;
+}
+
+
+void
+CIRCULAR_BUFFER_Write(circularBuffer_st * self_sv, uint8_t data_u8)
+{
+  if (CIRCULAR_BUFFER_Available(self_sv) == self_sv->size_u16 - 1)
+  {
+    self_sv->tail_u16 = (self_sv->tail_u16 + 1) % self_sv->tail_u16;
+  }
+
+  self_sv->buffer_u8ptr[self_sv->head_u16] = data_u8;
+  self_sv->head_u16 = (self_sv->head_u16 + 1) % self_sv->size_u16;
+}
+
+uint8_t
+CIRCULAR_BUFFER_Read(circularBuffer_st * self_sv)
+{
+  uint8_t data_u8;
+
+  while(CIRCULAR_BUFFER_Available(self_sv) <= 0); // TODO timeout
+  data_u8 = self_sv->buffer_u8ptr[self_sv->tail_u16];
+  self_sv->tail_u16 = (self_sv->tail_u16 + 1) % self_sv->size_u16;
+
+  return data_u8;
+}
+
+uint16_t
+CIRCULAR_BUFFER_Available(circularBuffer_st * self_sv)
+{
+  uint16_t len_u16;
+
+  len_u16 = (self_sv->size_u16 + self_sv->head_u16 - self_sv->tail_u16) % 
+            self_sv->size_u16;
+
+  return (len_u16);
+}
