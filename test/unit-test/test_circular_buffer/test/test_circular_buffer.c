@@ -49,10 +49,10 @@ test_circular_buffer_write_read_should_update_buffer_uint16()
 
   CIRCULAR_BUFFER_Init(&data_buffer, data_u16arr, sizeof(uint16_t), 16u);
 
-  TEST_ASSERT_EQUAL(0u, data_buffer.head_u32);
+  TEST_ASSERT_EQUAL(0u, data_buffer.head_u8);
   TEST_ASSERT_EQUAL(0u, data_buffer.tail_u32);
-  TEST_ASSERT_EQUAL(16u, data_buffer.size_u32);
-  TEST_ASSERT_EQUAL(sizeof(uint16_t), data_buffer.data_size_u32);
+  TEST_ASSERT_EQUAL(16u, data_buffer.size_u8);
+  TEST_ASSERT_EQUAL(sizeof(uint16_t), data_buffer.data_size_u8);
   TEST_ASSERT_EQUAL(data_u16arr, data_buffer.buffer_ptr);
   
 /* ######################### BUFFER WRITE OPERATION ######################### */
@@ -71,6 +71,70 @@ test_circular_buffer_write_read_should_update_buffer_uint16()
   {
     CIRCULAR_BUFFER_Read(&data_buffer, (void *)&pop_date_u16);
     TEST_ASSERT_EQUAL(num_u16arr[i_u8], pop_date_u16);
+  }
+  
+  TEST_ASSERT_EQUAL(0u, CIRCULAR_BUFFER_Available(&data_buffer));
+
+/* ######################## 2ND TIME WRITE OPERATION ######################## */
+
+/* ######################### BUFFER WRITE OPERATION ######################### */
+
+  for (uint8_t i_u8 = 0; i_u8 < data_arrsize; i_u8++)
+  {
+    CIRCULAR_BUFFER_Write(&data_buffer, (void *)&num_u16arr[i_u8]);
+  }
+
+  TEST_ASSERT_EQUAL(data_arrsize, CIRCULAR_BUFFER_Available(&data_buffer));
+ 
+/* ########################## BUFFER READ OPERATION ######################### */
+
+  for (uint8_t i_u8 = 0; i_u8 < data_arrsize; i_u8++)
+  {
+    CIRCULAR_BUFFER_Read(&data_buffer, (void *)&pop_date_u16);
+    TEST_ASSERT_EQUAL(num_u16arr[i_u8], pop_date_u16);
+  }
+
+  TEST_ASSERT_EQUAL(0u, CIRCULAR_BUFFER_Available(&data_buffer));
+}
+
+void
+test_circular_buffer_write_read_should_update_buffer_float()
+{
+  circularBuffer_st data_buffer;
+  float data_u16arr[16];
+  const uint8_t data_arrsize = 10u;
+  float num_u16arr[10] = { 10.12, 58.36, 12.36, 
+                           225.1, 58.36, 78.3, 
+                           45.21, 875.36, 587.0, 
+                           125.96
+                          };
+
+/* ############################### BUFFER INIT ############################## */
+
+  CIRCULAR_BUFFER_Init(&data_buffer, data_u16arr, sizeof(float), 16u);
+
+  TEST_ASSERT_EQUAL(0u, data_buffer.head_u8);
+  TEST_ASSERT_EQUAL(0u, data_buffer.tail_u32);
+  TEST_ASSERT_EQUAL(16u, data_buffer.size_u8);
+  TEST_ASSERT_EQUAL(sizeof(float), data_buffer.data_size_u8);
+  TEST_ASSERT_EQUAL(data_u16arr, data_buffer.buffer_ptr);
+  
+/* ######################### BUFFER WRITE OPERATION ######################### */
+
+  for (uint8_t i_u8 = 0; i_u8 < data_arrsize; i_u8++)
+  {
+    CIRCULAR_BUFFER_Write(&data_buffer, (void *)&num_u16arr[i_u8]);
+  }
+
+  TEST_ASSERT_EQUAL(data_arrsize, CIRCULAR_BUFFER_Available(&data_buffer));
+
+/* ########################## BUFFER READ OPERATION ######################### */
+  float pop_date_u16;
+
+  for (uint8_t i_u8 = 0; i_u8 < data_arrsize; i_u8++)
+  {
+    CIRCULAR_BUFFER_Read(&data_buffer, (void *)&pop_date_u16);
+    TEST_ASSERT_EQUAL_FLOAT(num_u16arr[i_u8], pop_date_u16);
   }
   
   TEST_ASSERT_EQUAL(0u, CIRCULAR_BUFFER_Available(&data_buffer));
