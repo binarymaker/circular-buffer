@@ -50,7 +50,7 @@ test_circular_buffer_write_read_should_update_buffer_uint16()
   CIRCULAR_BUFFER_Init(&data_buffer, data_u16arr, sizeof(uint16_t), 16u);
 
   TEST_ASSERT_EQUAL(0u, data_buffer.head_u8);
-  TEST_ASSERT_EQUAL(0u, data_buffer.tail_u32);
+  TEST_ASSERT_EQUAL(0u, data_buffer.tail_u8);
   TEST_ASSERT_EQUAL(16u, data_buffer.size_u8);
   TEST_ASSERT_EQUAL(sizeof(uint16_t), data_buffer.data_size_u8);
   TEST_ASSERT_EQUAL(data_u16arr, data_buffer.buffer_ptr);
@@ -114,7 +114,7 @@ test_circular_buffer_write_read_should_update_buffer_float()
   CIRCULAR_BUFFER_Init(&data_buffer, data_u16arr, sizeof(float), 16u);
 
   TEST_ASSERT_EQUAL(0u, data_buffer.head_u8);
-  TEST_ASSERT_EQUAL(0u, data_buffer.tail_u32);
+  TEST_ASSERT_EQUAL(0u, data_buffer.tail_u8);
   TEST_ASSERT_EQUAL(16u, data_buffer.size_u8);
   TEST_ASSERT_EQUAL(sizeof(float), data_buffer.data_size_u8);
   TEST_ASSERT_EQUAL(data_u16arr, data_buffer.buffer_ptr);

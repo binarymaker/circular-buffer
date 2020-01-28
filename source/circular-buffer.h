@@ -38,10 +38,10 @@
 typedef struct circularBuffer_s
 {
   void * buffer_ptr;
-  uint32_t data_size_u32;
-  uint32_t size_u32;
-  uint32_t head_u32;
-  uint32_t tail_u32;
+  uint8_t data_size_u8;
+  uint8_t size_u8;
+  uint8_t head_u8;
+  uint8_t tail_u8;
 } circularBuffer_st;
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
@@ -50,7 +50,7 @@ typedef struct circularBuffer_s
 
 void
 CIRCULAR_BUFFER_Init(circularBuffer_st * self, void * buffer_ptr, 
-                     uint32_t data_size_u32,uint32_t size_u32);
+                     uint32_t data_size_u8,uint32_t size_u8);
 
 void
 CIRCULAR_BUFFER_Write(circularBuffer_st * self, void * data_ptr);
