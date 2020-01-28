@@ -60,27 +60,25 @@ CIRCULAR_BUFFER_Write(circularBuffer_st * self, void * data_ptr)
 void
 CIRCULAR_BUFFER_Read(circularBuffer_st * self, void * data_ptr)
 {
-  uint8_t data_u8;
 
   while(CIRCULAR_BUFFER_Available(self) <= 0); // TODO timeout
 
-  uint32_t start_u32 = self->tail_u8 * self->data_size_u8;
+  uint8_t start_u8 = self->tail_u8 * self->data_size_u8;
 
   for(uint8_t i_u8 = 0; i_u8 < self->data_size_u8; i_u8++)
   {
-    *(int8_t *)(data_ptr + i_u8) = *(int8_t *)(self->buffer_ptr + start_u32 + i_u8);
+    *(int8_t *)(data_ptr + i_u8) = *(int8_t *)(self->buffer_ptr + start_u8 + i_u8);
   }
 
   self->tail_u8 = (self->tail_u8 + 1u) % self->size_u8;
-  
 }
 
 uint32_t
 CIRCULAR_BUFFER_Available(circularBuffer_st * self)
 {
-  uint32_t len_u32;
+  uint32_t len_u8;
 
-  len_u32 = (self->size_u8 + self->head_u8 - self->tail_u8) % self->size_u8;
+  len_u8 = (self->size_u8 + self->head_u8 - self->tail_u8) % self->size_u8;
 
-  return (len_u32);
+  return (len_u8);
 }
