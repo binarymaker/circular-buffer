@@ -82,10 +82,10 @@ CIRCULAR_BUFFER_Read(circularBuffer_st * self, void * data_ptr)
   self->tail_u8 = (self->tail_u8 + 1u) % self->size_u8;
 }
 
-uint32_t
+uint8_t
 CIRCULAR_BUFFER_Available(circularBuffer_st * self)
 {
-  uint32_t len_u8;
+  uint8_t len_u8;
 
   len_u8 = (self->size_u8 + self->head_u8 - self->tail_u8) % self->size_u8;
 

@@ -58,7 +58,7 @@ CIRCULAR_BUFFER_Write(circularBuffer_st * self, void * data_ptr);
 void
 CIRCULAR_BUFFER_Read(circularBuffer_st * self, void * data_ptr);
 
-uint32_t
+uint8_t
 CIRCULAR_BUFFER_Available(circularBuffer_st * self);
 
 #ifdef __cplusplus
