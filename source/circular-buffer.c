@@ -29,47 +29,58 @@
 /* Private functions ---------------------------------------------------------*/
 
 void
-CIRCULAR_BUFFER_Init(circularBuffer_st * self, uint8_t * buffer_u8ptr, 
-                      uint16_t size_u16)
+CIRCULAR_BUFFER_Init(circularBuffer_st * self, void * buffer_ptr, 
+                     uint32_t data_size_u32,uint32_t size_u32)
 {
-  self->size_u16 = size_u16;
-  self->buffer_u8ptr = buffer_u8ptr;
-  self->head_u16 = 0;
-  self->tail_u16 = 0;
+  self->buffer_ptr    = buffer_ptr;
+  self->data_size_u32 = data_size_u32;
+  self->size_u32      = size_u32 ;
+  self->head_u32      = 0u;
+  self->tail_u32      = 0u;
 }
-
 
 void
-CIRCULAR_BUFFER_Write(circularBuffer_st * self, uint8_t data_u8)
+CIRCULAR_BUFFER_Write(circularBuffer_st * self, void * data_ptr)
 {
-  if (CIRCULAR_BUFFER_Available(self) == self->size_u16 - 1)
+  if (CIRCULAR_BUFFER_Available(self) == self->size_u32 - 1)
   {
-    self->tail_u16 = (self->tail_u16 + 1) % self->tail_u16;
+    self->tail_u32 = (self->tail_u32 + 1) % self->size_u32;
   }
 
-  self->buffer_u8ptr[self->head_u16] = data_u8;
-  self->head_u16 = (self->head_u16 + 1) % self->size_u16;
+  uint32_t start_u32 = self->head_u32 * self->data_size_u32;
+
+  for(uint32_t i_u32 = 0; i_u32 < self->data_size_u32; i_u32++)
+  {
+    *(self->buffer_ptr + start_u32 + i_u32) = *(int8_t *)(data_ptr + i_u32);
+  }
+
+  self->head_u32 = (self->head_u32 + 1u) % self->size_u32;
 }
 
-uint8_t
-CIRCULAR_BUFFER_Read(circularBuffer_st * self)
+void
+CIRCULAR_BUFFER_Read(circularBuffer_st * self, void * data_ptr)
 {
   uint8_t data_u8;
 
   while(CIRCULAR_BUFFER_Available(self) <= 0); // TODO timeout
-  data_u8 = self->buffer_u8ptr[self->tail_u16];
-  self->tail_u16 = (self->tail_u16 + 1) % self->size_u16;
 
-  return data_u8;
+  uint32_t start_u32 = self->tail_u32 * self->data_size_u32;
+
+  for(uint32_t i_u32 = 0; i_u32 < self->data_size_u32; i_u32++)
+  {
+    *(data_ptr + i_u32) = *(int8_t *)(self->buffer_ptr + start_u32 + i_u32);
+  }
+
+  self->tail_u32 = (self->tail_u32 + 1u) % self->size_u32;
+  
 }
 
-uint16_t
+uint32_t
 CIRCULAR_BUFFER_Available(circularBuffer_st * self)
 {
-  uint16_t len_u16;
+  uint32_t len_u32;
 
-  len_u16 = (self->size_u16 + self->head_u16 - self->tail_u16) % 
-            self->size_u16;
+  len_u32 = (self->size_u32 + self->head_u32 - self->tail_u32) % self->size_u32;
 
-  return (len_u16);
+  return (len_u32);
 }

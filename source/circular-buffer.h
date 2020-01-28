@@ -37,10 +37,11 @@
 /* Exported types ------------------------------------------------------------*/
 typedef struct circularBuffer_s
 {
-  uint16_t size_u16;
-  uint8_t  *buffer_u8ptr;
-  uint16_t head_u16;
-  uint16_t tail_u16;
+  void * buffer_ptr;
+  uint32_t data_size_u32;
+  uint32_t size_u32;
+  uint32_t head_u32;
+  uint32_t tail_u32;
 } circularBuffer_st;
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
@@ -48,16 +49,16 @@ typedef struct circularBuffer_s
 
 
 void
-CIRCULAR_BUFFER_Init(circularBuffer_st * self, uint8_t * buffer_u8ptr, 
-                      uint16_t size_u16);
+CIRCULAR_BUFFER_Init(circularBuffer_st * self, void * buffer_ptr, 
+                     uint32_t data_size_u32,uint32_t size_u32);
 
 void
-CIRCULAR_BUFFER_Write(circularBuffer_st * self, uint8_t data_u8);
+CIRCULAR_BUFFER_Write(circularBuffer_st * self, void * data_ptr);
 
-uint8_t
-CIRCULAR_BUFFER_Read(circularBuffer_st * self);
+void
+CIRCULAR_BUFFER_Read(circularBuffer_st * self, void * data_ptr);
 
-uint16_t
+uint32_t
 CIRCULAR_BUFFER_Available(circularBuffer_st * self);
 
 #ifdef __cplusplus
