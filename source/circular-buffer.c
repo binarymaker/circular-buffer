@@ -42,16 +42,20 @@ CIRCULAR_BUFFER_Init(circularBuffer_st * self, void * buffer_ptr,
 void
 CIRCULAR_BUFFER_Write(circularBuffer_st * self, void * data_ptr)
 {
-  if (CIRCULAR_BUFFER_Available(self) == self->size_u8 - 1)
+  uint8_t * data_u8ptr = (uint8_t *) data_ptr;
+  uint8_t * buffer_u8ptr = (uint8_t *) self->buffer_ptr;
+
+  if (CIRCULAR_BUFFER_Available(self) == self->size_u8 - 1u)
   {
-    self->tail_u8 = (self->tail_u8 + 1) % self->size_u8;
+    self->tail_u8 = (self->tail_u8 + 1u) % self->size_u8;
   }
 
   uint8_t start_u8 = self->head_u8 * self->data_size_u8;
 
   for(uint8_t i_u8 = 0; i_u8 < self->data_size_u8; i_u8++)
   {
-    *(int8_t *)(self->buffer_ptr + start_u8 + i_u8) = *(int8_t *)(data_ptr + i_u8);
+    uint8_t mem_loc_u8 = start_u8 + i_u8;
+    buffer_u8ptr[mem_loc_u8] = data_u8ptr[i_u8];
   }
 
   self->head_u8 = (self->head_u8 + 1u) % self->size_u8;
@@ -60,14 +64,16 @@ CIRCULAR_BUFFER_Write(circularBuffer_st * self, void * data_ptr)
 void
 CIRCULAR_BUFFER_Read(circularBuffer_st * self, void * data_ptr)
 {
+  uint8_t * data_u8ptr = (uint8_t *) data_ptr;
+  uint8_t * buffer_u8ptr = (uint8_t *) self->buffer_ptr;
 
-  while(CIRCULAR_BUFFER_Available(self) <= 0); // TODO timeout
+  while(CIRCULAR_BUFFER_Available(self) == 0u); // TODO timeout
 
   uint8_t start_u8 = self->tail_u8 * self->data_size_u8;
 
   for(uint8_t i_u8 = 0; i_u8 < self->data_size_u8; i_u8++)
   {
-    *(int8_t *)(data_ptr + i_u8) = *(int8_t *)(self->buffer_ptr + start_u8 + i_u8);
+    data_u8ptr[i_u8] = buffer_u8ptr[start_u8 + i_u8];
   }
 
   self->tail_u8 = (self->tail_u8 + 1u) % self->size_u8;
