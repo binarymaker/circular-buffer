@@ -1,28 +1,8 @@
 /*
 !/.gitignore
-!/.travis.yml
-!/codecov.yml
 !/README.md
 !/config
 /config/*/**
 !/source
 !/tools
 
-*.log
-
-# Ceedling test case
-!/test/
-/test/*
-!/test/unit-test/
-/test/unit-test/*
-!/test/unit-test/test*/
-
-# Ceedling build directory
-test/**/build/
-
-### log tool files ###
-**/log_modules.h
-**/log_tokens.json
-
-### python ###
-*.pyc
