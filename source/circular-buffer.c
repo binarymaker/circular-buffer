@@ -91,3 +91,10 @@ CIRCULAR_BUFFER_Available(circularBuffer_st * self)
 
   return (len_u8);
 }
+
+void
+CIRCULAR_BUFFER_Flush(circularBuffer_st * self)
+{
+  self->head_u8 = 0u;
+  self->tail_u8 = 0u;
+}

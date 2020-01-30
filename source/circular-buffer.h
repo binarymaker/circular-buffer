@@ -61,6 +61,9 @@ CIRCULAR_BUFFER_Read(circularBuffer_st * self, void * data_ptr);
 uint32_t
 CIRCULAR_BUFFER_Available(circularBuffer_st * self);
 
+void
+CIRCULAR_BUFFER_Flush(circularBuffer_st * self);
+
 #ifdef __cplusplus
 }
 #endif
